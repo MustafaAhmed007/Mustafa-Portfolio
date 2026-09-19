@@ -1,0 +1,3 @@
+import type {Metadata} from "next"; import "./globals.css";
+export const metadata:Metadata={title:"Mustafa Ahmed — AI Automation Engineer",description:"Mustafa Ahmed builds agentic AI systems, RAG applications, intelligent automation and LLM products.",metadataBase:new URL("https://mustafa-portfolio.vercel.app")};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
