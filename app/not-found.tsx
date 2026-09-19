@@ -1,0 +1,1 @@
+import Link from "next/link"; export default function NotFound(){return <main className="page center"><p className="eyebrow">SIGNAL LOST</p><h1 className="display">404</h1><p>The requested route does not exist.</p><Link className="button" href="/">RETURN TO SYSTEM</Link></main>}

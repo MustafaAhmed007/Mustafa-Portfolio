@@ -1,0 +1,1 @@
+export default function Systems(){return <main className="page"><p className="eyebrow">03 / SYSTEMS</p><h1 className="display">How the work <i>connects.</i></h1><p className="lead">RAG, agents, automation, APIs and evaluation are presented as connected engineering capabilities rather than isolated skills.</p></main>}
