@@ -1,2 +1,477 @@
-"use client";import{useEffect,useRef,useState}from"react";import Link from"next/link";import{ArrowUpRight,Search,X,Github,Linkedin}from"lucide-react";import gsap from"gsap";import{ScrollTrigger}from"gsap/ScrollTrigger";import{projects}from"@/content/projects";gsap.registerPlugin(ScrollTrigger);
-export function HomeExperience(){const hero=useRef<HTMLDivElement>(null),person=useRef<HTMLDivElement>(null);const[cmd,setCmd]=useState(false),[active,setActive]=useState<string|null>(null);useEffect(()=>{if(!hero.current||!person.current)return;const ctx=gsap.context(()=>{gsap.fromTo(hero.current,{opacity:0,scale:1.08},{opacity:1,scale:1,duration:1.2,ease:"power3.out"});gsap.fromTo(person.current,{y:"105vh"},{y:"0vh",duration:1.7,delay:.2,ease:"power4.out"});gsap.utils.toArray(".reveal").forEach((e:any)=>gsap.fromTo(e,{y:60,opacity:0},{y:0,opacity:1,duration:1,ease:"power3.out",scrollTrigger:{trigger:e,start:"top 84%"}}))});return()=>ctx.revert()},[]);useEffect(()=>{const k=(e:KeyboardEvent)=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()=="k"){e.preventDefault();setCmd(v=>!v)}if(e.key=="Escape")setCmd(false)};addEventListener("keydown",k);return()=>removeEventListener("keydown",k)},[]);const jump=(id:string)=>{setCmd(false);document.getElementById(id)?.scrollIntoView({behavior:"smooth"})};return <div className="site"><header><Link href="/" className="mark"><span>M</span>/A</Link><nav className="hero-nav">{[["Home","#top"],["Work","#work"],["Systems","#systems"],["About","#about"],["Resume","/resume"],["Thinking","/thinking"],["Lab","/lab"],["Search","/search"],["Contact","#contact"]].map(([label,href])=>href.startsWith("#")?<button key={label} onClick={()=>href==="#top"?window.scrollTo({top:0,behavior:"smooth"}):jump(href.slice(1))}>{label}</button>:<Link key={label} href={href}>{label}</Link>)}</nav><div className="header-actions"><button className="command" onClick={()=>setCmd(true)} aria-label="Open command palette"><Search size={16}/></button><a className="connect" href="mailto:engrmustafa0007@gmail.com?subject=Portfolio%20Inquiry">Let's Connect <ArrowUpRight size={15}/></a></div></header><main><section className="hero" id="top"><div className="hero-bg"/><div className="hero-grid"/><div ref={hero} className="hero-word">PORTFOLIO</div><div className="hero-orbit" aria-hidden="true"/><div ref={person} className="hero-person"><img src="/images/mustafa-hero.webp" alt="Mustafa Ahmed in a black suit" /></div><div className="hero-copy"><div className="hero-badge"><span/> AI AUTOMATION ENGINEER <b>|</b> AGENTIC AI <b>|</b> BUILDER</div><div className="hero-slogan">Turning<br/>ideas into<br/><i>impact.</i></div><h1>Mustafa <em>Ahmed</em></h1><h2>AI Systems Designer &amp; LLM Application Developer</h2><p>I build intelligent systems that turn AI capabilities into real-world value — through automation, agents, data, and scalable applications.</p><div className="hero-actions"><button className="button" onClick={()=>jump("work")}>VIEW MY WORK <ArrowUpRight size={16}/></button><a className="button ghost" href="/resume">DOWNLOAD RESUME <ArrowUpRight size={16}/></a></div><div className="hero-stats"><div><b>6</b><span>Featured<br/>AI Systems</span></div><div><b>●</b><span>Active<br/>GitHub Work</span></div><div><b>◆</b><span>Educator<br/>BCA Faculty</span></div><div><b>↗</b><span>Automation<br/>AI · LLM · RAG</span></div></div></div><div className="hero-side-note"><span className="dot"/><p>BUILD<br/>AUTOMATE<br/>EDUCATE<br/>CREATE IMPACT</p></div><div className="hero-quote">“Better systems<br/>for a brighter<br/>future.”</div><div className="featured-strip"><span className="strip-label">FOCUS AREAS</span><span>AI SYSTEMS</span><span>AUTOMATION</span><span>LLM APPLICATIONS</span><span>OPEN SOURCE</span><span>RESEARCH &amp; LEARNING</span><span>TEACHING</span><strong>Always Learning<br/>Always Building ↗</strong></div></section></section><section id="about" className="section identity"><div className="portrait reveal"><img src="/images/mustafa-hero.webp" alt="Mustafa Ahmed profile" /></div><div><p className="eyebrow reveal">01 / IDENTITY</p><h2 className="display reveal">From prompts to <i>pipelines.</i><br/>From agents to <i>systems.</i></h2><p className="lead reveal">AI Automation Engineer · Agentic AI Systems Designer · LLM Application Developer. My work centers on RAG, agentic workflows, intelligent automation, APIs and developer tooling.</p></div></section><section id="systems" className="section"><p className="eyebrow reveal">02 / CAPABILITIES</p><h2 className="display reveal">The <i>systems.</i></h2><div className="accordion">{[["AI SYSTEMS","Agent architecture · LLM applications · evaluation"],["AGENTIC SYSTEMS","Tool calling · orchestration · bounded autonomy"],["RAG / KNOWLEDGE","Adaptive routing · retrieval · evidence"],["AUTOMATION","Python · FastAPI · n8n · API integration"]].map(([t,d])=><div key={t} className={"row "+(active===t?"active":"")}><button onClick={()=>setActive(active===t?null:t)}><b>{t}</b><ArrowUpRight/></button>{active===t&&<p>{d}</p>}</div>)}</div></section><section id="work" className="section"><p className="eyebrow reveal">03 / SELECTED WORK</p><h2 className="display reveal">Evidence <i>nodes.</i></h2><div className="work-list">{projects.map(p=><Link className="work-item reveal" href={"/work/"+p.slug} key={p.slug}><div><span>{p.index} · {p.kind}</span><h3>{p.name}</h3><p>{p.thesis}</p></div><ArrowUpRight/></Link>)}</div></section><section id="contact" className="section contact"><div><p className="eyebrow reveal">04 / CONTACT</p><h2 className="display reveal">Have a system<br/>worth <i>building?</i></h2><a className="email reveal" href="mailto:engrmustafa0007@gmail.com">engrmustafa0007@gmail.com ↗</a><div className="socials"><a href="https://github.com/MustafaAhmed007" target="_blank"><Github/></a><a href="https://www.linkedin.com/in/mustafa-ahmed-030182173/" target="_blank"><Linkedin/></a></div></div><div className="contact-card reveal"><p>Open for AI engineering, automation, product engineering and technical collaboration.</p><a className="button" href="mailto:engrmustafa0007@gmail.com?subject=Project%20Inquiry">START A CONVERSATION ↗</a></div></section></main><footer><div className="footer-horizon" aria-hidden="true"/><div className="footer-shade"/><div className="footer-inner"><span>MUSTAFA</span><strong>AI SYSTEMS / AUTOMATION / INTELLIGENCE</strong><small>© {new Date().getFullYear()} Mustafa Ahmed</small></div></footer>{cmd&&<div className="modal" onClick={()=>setCmd(false)}><div className="command-box" onClick={e=>e.stopPropagation()}><button className="close" onClick={()=>setCmd(false)}><X/></button><p className="eyebrow">COMMAND INTERFACE</p>{["top","about","systems","work","contact"].map((id,i)=><button className="command-row" key={id} onClick={()=>jump(id)}>{["Home","Identity","Systems","Work","Contact"][i]} <span>↗</span></button>)}{[["Thinking","/thinking"],["Lab","/lab"],["Search index","/search"],["Resume","/resume"]].map(([label,href])=><Link className="command-row" href={href} key={href} onClick={()=>setCmd(false)}>{label} <span>↗</span></Link>)}<a className="command-row" href="https://github.com/MustafaAhmed007" target="_blank">GitHub <span>↗</span></a></div></div>}</div>}
+"use client";
+
+import { FormEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, Github, Instagram, Linkedin, Menu, X, Youtube } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const primaryProjects = [
+  {
+    id: "01",
+    name: "AdaptiveRAG-X",
+    kind: "adaptive retrieval / RAG",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1611162617474-5b21e879e113",
+    description:
+      "An adaptive retrieval architecture that profiles queries, routes them to different evidence strategies, evaluates evidence and uses bounded recovery before grounded generation.",
+    href: "https://github.com/MustafaAhmed007/AdaptiveRag-X",
+    slug: "adaptiverag-x",
+  },
+  {
+    id: "02",
+    name: "Self-Healing DevOps Agent",
+    kind: "agentic / devops",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1573164713988-8665fc963095",
+    description:
+      "A bounded engineering workflow that moves from issue reproduction through research, diagnosis, constrained patching, security checks and verification before producing evidence and a pull request.",
+    href: "https://github.com/MustafaAhmed007/Self-Healing-DevOps-Agent",
+    slug: "self-healing-devops-agent",
+  },
+  {
+    id: "03",
+    name: "LinkedIn Revenue Intelligence OS",
+    kind: "automation / intelligence",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1587831990711-23ca6441447b",
+    description:
+      "An operating system connecting audience research, content intelligence, experiments, distribution, attribution and revenue learning into one repeatable feedback loop.",
+    href: "https://github.com/MustafaAhmed007/LinkedIn-Revenue-Intelligence-OS",
+    slug: "linkedin-revenue-intelligence-os",
+  },
+  {
+    id: "04",
+    name: "Website Experience OS",
+    kind: "experience / engineering",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1518770660439-4636190af475",
+    description:
+      "A system-oriented framework for premium digital experiences built around reusable visual language, interaction patterns, content structure and maintainable implementation.",
+    href: "https://github.com/MustafaAhmed007/Website_Experience_OS",
+    slug: "website-experience-os",
+  },
+  {
+    id: "05",
+    name: "YouTube Intelligence OS",
+    kind: "research / intelligence",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1573164713988-8665fc963095",
+    description:
+      "An evidence-first research workflow that turns questions into auditable intelligence packages through multi-angle planning, source discovery, transcript acquisition, validation and synthesis.",
+    href: "https://github.com/MustafaAhmed007/YouTube_Intelligence_OS",
+    slug: "youtube-intelligence-os",
+  },
+  {
+    id: "06",
+    name: "Agent Authority",
+    kind: "agent access / governance",
+    image: "https://portfolio-leeshark.vercel.app/assets/photo-1518770660439-4636190af475",
+    description:
+      "A verification layer focused on testing what AI agents can actually access and do, separating declared capability from observed authority and evidence.",
+    href: "https://github.com/MustafaAhmed007/Agent-Authority",
+    slug: "agent-authority",
+  },
+];
+
+const services = [
+  {
+    id: "01",
+    title: "AI SYSTEMS & LLM APPLICATIONS",
+    description:
+      "I design and build production-oriented AI applications around LLMs, agents, retrieval, evaluation and tool execution — turning model capabilities into usable systems.",
+    capabilities: ["LLM Applications", "Agent Architecture", "RAG Pipelines", "Evaluation", "Tool Calling"],
+  },
+  {
+    id: "02",
+    title: "AGENTIC AI & ORCHESTRATION",
+    description:
+      "I build bounded multi-step workflows where specialized agents plan, execute, verify and hand work forward without treating autonomous generation as a substitute for engineering controls.",
+    capabilities: ["Multi-Agent Systems", "LangGraph", "Workflow State", "Tool Use", "Verification"],
+  },
+  {
+    id: "03",
+    title: "RAG & KNOWLEDGE SYSTEMS",
+    description:
+      "I build retrieval systems that adapt to query complexity, preserve evidence and make grounded generation more reliable.",
+    capabilities: ["Adaptive Retrieval", "Semantic Search", "Evidence Evaluation", "Reranking", "Knowledge Pipelines"],
+  },
+  {
+    id: "04",
+    title: "AUTOMATION & API ENGINEERING",
+    description:
+      "I connect AI, APIs, data and workflow automation into operational systems that remove repetitive work and create measurable execution loops.",
+    capabilities: ["Python", "FastAPI", "n8n", "REST APIs", "Workflow Automation"],
+  },
+  {
+    id: "05",
+    title: "FULL-STACK & EXPERIENCE ENGINEERING",
+    description:
+      "I build responsive digital products with a strong emphasis on interaction, maintainability, performance, accessibility and clear product storytelling.",
+    capabilities: ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP"],
+  },
+  {
+    id: "06",
+    title: "DEVOPS, QA & REPOSITORY ENGINEERING",
+    description:
+      "I treat repositories as living systems: discover the architecture, repair defects, verify behavior, document decisions and gate releases with evidence.",
+    capabilities: ["Git & GitHub", "CI/CD", "Testing", "Security", "Self-Healing Workflows"],
+  },
+];
+
+const stacks = {
+  frontend: ["Next.js", "React", "TypeScript", "JavaScript", "Tailwind CSS", "GSAP", "Responsive UI"],
+  backend: ["Python", "FastAPI", "REST APIs", "PostgreSQL", "Redis", "SQLite"],
+  ai: ["OpenAI", "Claude", "DeepSeek", "Qwen", "LangChain", "LangGraph", "MCP", "RAG", "Agentic AI"],
+  tools: ["Git", "GitHub", "Docker", "n8n", "Make", "Vercel", "CI/CD", "Prompt Engineering"],
+};
+
+export function HomeExperience() {
+  const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeService, setActiveService] = useState<number | null>(null);
+  const loaderWord = useRef<HTMLHeadingElement>(null);
+  const loaderImage = useRef<HTMLImageElement>(null);
+  const nav = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = "hidden";
+    const word = loaderWord.current;
+    const image = loaderImage.current;
+    if (!word || !image) return;
+
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        document.body.style.overflow = "auto";
+        setLoading(false);
+      },
+    });
+
+    timeline
+      .to(word, { y: 0, opacity: 1, duration: 1.2, ease: "power3.inOut" }, 0.2)
+      .fromTo(
+        ".loader-subtitle, .loader-contact",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.1, stagger: 0.15, ease: "power3.out" },
+        "-=0.8",
+      )
+      .fromTo(image, { y: "100vh" }, { y: 0, duration: 1.5, ease: "power3.out" }, "-=1.2")
+      .to(".loader", { opacity: 0, duration: 0.7, delay: 0.25, pointerEvents: "none" });
+
+    return () => {
+      timeline.kill();
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".site-nav",
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+      );
+
+      gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
+        gsap.fromTo(
+          element,
+          { y: 45, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: { trigger: element, start: "top 84%", toggleActions: "play none none reverse" },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".intro-word").forEach((element) => {
+        gsap.fromTo(
+          element,
+          { color: "#52525b", opacity: 0.2 },
+          {
+            color: "#fff",
+            opacity: 1,
+            stagger: 0.04,
+            scrollTrigger: {
+              trigger: element.parentElement,
+              start: "top 84%",
+              end: "bottom 55%",
+              scrub: true,
+            },
+          },
+        );
+      });
+    });
+    return () => ctx.revert();
+  }, [loading]);
+
+  const jump = (id: string) => {
+    setMobileOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const submitContact = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const subject = encodeURIComponent(String(data.get("subject") || "Portfolio inquiry"));
+    const body = encodeURIComponent(
+      `Name: ${data.get("name") || ""}
+Email: ${data.get("email") || ""}
+Phone: ${data.get("phone") || ""}
+
+${data.get("message") || ""}`,
+    );
+    window.location.href = `mailto:engrmustafa0007@gmail.com?subject=${subject}&body=${body}`;
+  };
+
+  return (
+    <div className="portfolio-shell">
+      {loading && (
+        <section className="loader" aria-label="Portfolio loading">
+          <div className="loader-vignette" />
+          <div className="loader-title-wrap">
+            <h1 ref={loaderWord}>PORTFOLIO</h1>
+            <p className="loader-subtitle"><strong>AI Systems</strong> <em>Designer</em></p>
+            <div className="loader-contact">
+              <button onClick={() => jump("contact")} aria-label="Contact Mustafa">
+                <ArrowUpRight size={15} />
+              </button>
+              <button onClick={() => jump("contact")}>Contact</button>
+            </div>
+          </div>
+          <img ref={loaderImage} className="loader-person" src="/images/mustafa-hero.webp" alt="Mustafa Ahmed" />
+        </section>
+      )}
+
+      <nav ref={nav} className="site-nav" aria-label="Primary navigation">
+        <button className="brand" onClick={() => jump("home")}>MUSTAFA</button>
+        <div className="desktop-nav">
+          <button onClick={() => jump("home")}>Home</button>
+          <button onClick={() => jump("about")}>About</button>
+          <button onClick={() => jump("service")}>Service</button>
+          <button onClick={() => jump("project")}>Project</button>
+          <button onClick={() => jump("contact")}>Contact</button>
+        </div>
+        <button className="mobile-menu-button" onClick={() => setMobileOpen(true)} aria-label="Open menu"><Menu /></button>
+      </nav>
+
+      {mobileOpen && (
+        <div className="mobile-menu">
+          <button className="mobile-close" onClick={() => setMobileOpen(false)} aria-label="Close menu"><X /></button>
+          <div>
+            {["home", "about", "service", "project", "contact"].map((id) => (
+              <button key={id} onClick={() => jump(id)}>{id}</button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <main>
+        <section id="home" className="hero-section">
+          <div className="hero-overlay" />
+          <div className="hero-title">
+            <h1>PORTFOLIO</h1>
+            <p><strong>AI Systems</strong> <em>Designer</em></p>
+            <div className="hero-contact">
+              <button onClick={() => jump("contact")}><ArrowUpRight size={15} /></button>
+              <button onClick={() => jump("contact")}>Contact</button>
+            </div>
+          </div>
+          <img className="hero-person" src="/images/mustafa-hero.webp" alt="Mustafa Ahmed in a black suit" />
+        </section>
+
+        <section id="about" className="about-section">
+          <div className="section-inner about-inner">
+            <h2 className="mobile-section-word reveal">Intro</h2>
+            <div className="about-grid">
+              <div className="about-portrait reveal">
+                <img
+                  src="https://portfolio-leeshark.vercel.app/assets/about_section-DSEtWksm.png"
+                  alt="Mustafa Ahmed full-body portrait"
+                  onError={(e) => { e.currentTarget.src = "/images/mustafa-hero.webp"; }}
+                />
+              </div>
+              <div className="about-copy">
+                <h2 className="desktop-section-word reveal">Intro</h2>
+                <div className="intro-card">
+                  <p>
+                    {[
+                      ["Hey,", ""], ["I'm", ""], ["Mustafa Ahmed.", "strong"], ["An", ""],
+                      ["AI", ""], ["Automation", ""], ["Engineer", ""], ["and", ""],
+                      ["Agentic AI", ""], ["Systems Designer", ""], ["who", ""], ["builds", ""],
+                      ["production-oriented", ""], ["AI", ""], ["systems.", ""], ["My", ""],
+                      ["work", ""], ["connects", ""], ["RAG,", "strong"], ["agents,", "strong"],
+                      ["automation,", "strong"], ["APIs,", "strong"], ["data,", "strong"],
+                      ["and", ""], ["full-stack", ""], ["engineering.", ""], ["I", ""],
+                      ["also", ""], ["teach", ""], ["BCA", "strong"], ["students", "strong"],
+                      ["and", ""], ["turn", ""], ["complex", ""], ["technical", ""],
+                      ["ideas", ""], ["into", ""], ["clear", ""], ["systems", ""], ["and", ""],
+                      ["learning", ""], ["experiences.", ""],
+                    ].map(([text, variant], index) => (
+                      <span key={index} className={`intro-word ${variant === "strong" ? "intro-strong" : ""}`}>{text} </span>
+                    ))}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <StackMarquee />
+        </section>
+
+        <section id="service" className="service-section">
+          <div className="section-heading service-heading reveal">WHAT WE<br />CAN DO</div>
+          <div className="service-list">
+            {services.map((service, index) => {
+              const open = activeService === index;
+              return (
+                <article
+                  key={service.id}
+                  className={`service-row ${open ? "service-open" : ""}`}
+                  onMouseEnter={() => !open && setActiveService(index)}
+                  onMouseLeave={() => setActiveService(null)}
+                  onClick={() => setActiveService(open ? null : index)}
+                >
+                  <div className="service-main">
+                    <span className="service-number">{service.id}</span>
+                    <div className="service-content">
+                      <h3>{service.title}</h3>
+                      <div className={`service-expand ${open ? "open" : ""}`}>
+                        <div className="service-description">
+                          <p>{service.description}</p>
+                          <ul>{service.capabilities.map((item) => <li key={item}>■ {item}</li>)}</ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="service-arrow"><ArrowUpRight size={24} /></span>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section id="project" className="project-section">
+          <div className="project-header">
+            <h2 className="section-heading reveal">Selected <em>work</em></h2>
+            <div>
+              <p className="project-intro">Systems, repositories and experiments built around practical AI engineering, automation, retrieval, agents and digital experiences.</p>
+              <button className="lime-button" onClick={() => jump("contact")}>Read More <ArrowUpRight size={13} /></button>
+            </div>
+          </div>
+
+          <div className="project-list">
+            {primaryProjects.map((project, index) => (
+              <article className={`project-row ${index % 2 ? "reverse" : ""} reveal`} key={project.id}>
+                <div className="project-image-wrap">
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    onError={(e) => { e.currentTarget.src = "/images/mustafa-hero.webp"; }}
+                  />
+                </div>
+                <div className="project-copy">
+                  <span className="project-number">{project.id}</span>
+                  <h3>{project.name}</h3>
+                  <span className="project-kind">{project.kind}</span>
+                  <p>{project.description}</p>
+                  <div className="project-actions">
+                    <Link className="lime-button" href={`/work/${project.slug}`}>Explore <ArrowUpRight size={13} /></Link>
+                    <a className="ghost-button" href={project.href} target="_blank" rel="noreferrer">GitHub <Github size={14} /></a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="contact" className="contact-section">
+          <div className="contact-bg" />
+          <div className="contact-inner">
+            <div className="contact-copy">
+              <p className="eyebrow">GET IN TOUCH</p>
+              <h2>Let's build<br /><em>something.</em></h2>
+              <p className="contact-note">Open for AI engineering, automation, product engineering, research systems and technical collaborations.</p>
+              <a className="contact-email" href="mailto:engrmustafa0007@gmail.com">engrmustafa0007@gmail.com</a>
+              <p className="contact-phone">+91 8801 379 786</p>
+              <div className="social-links">
+                <a href="https://github.com/MustafaAhmed007" target="_blank" rel="noreferrer"><Github /></a>
+                <a href="https://www.linkedin.com/in/mustafa-ahmed-030182173/" target="_blank" rel="noreferrer"><Linkedin /></a>
+              </div>
+            </div>
+            <form className="contact-form" onSubmit={submitContact}>
+              <div className="form-row">
+                <label>Your Name<input required name="name" placeholder="Your name" /></label>
+                <label>Email address<input required type="email" name="email" placeholder="Your email address" /></label>
+              </div>
+              <div className="form-row">
+                <label>Phone<input name="phone" placeholder="Your phone number" /></label>
+                <label>Subject<input name="subject" placeholder="Subject" /></label>
+              </div>
+              <label>Message<textarea required name="message" placeholder="Write something...." rows={5} /></label>
+              <button type="submit" className="submit-button">Send Message</button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="portfolio-footer">
+        <div className="footer-art" />
+        <div className="footer-overlay" />
+        <div className="footer-inner">
+          <div className="footer-top">
+            <div>
+              <p className="footer-muted">Connect with me</p>
+              <a className="footer-email" href="mailto:engrmustafa0007@gmail.com">engrmustafa0007@gmail.com</a>
+              <div className="footer-nav">
+                <button onClick={() => jump("home")}>Home</button>
+                <button onClick={() => jump("about")}>About</button>
+                <button onClick={() => jump("service")}>Services</button>
+                <button onClick={() => jump("project")}>Projects</button>
+              </div>
+            </div>
+            <div className="footer-build">
+              <h3>Let's build something</h3>
+              <p>Open for AI engineering, automation and technical collaborations.</p>
+              <button onClick={() => jump("contact")}>Get in touch</button>
+            </div>
+          </div>
+          <div className="footer-social">
+            <a href="https://github.com/MustafaAhmed007" target="_blank" rel="noreferrer">Github</a>
+            <a href="https://www.linkedin.com/in/mustafa-ahmed-030182173/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="mailto:engrmustafa0007@gmail.com">Email</a>
+            <a href="https://github.com/MustafaAhmed007" target="_blank" rel="noreferrer">Open Source</a>
+          </div>
+          <div className="footer-name">MUSTAFA</div>
+          <div className="footer-bottom">
+            <p>© {new Date().getFullYear()} Mustafa Ahmed. All Rights Reserved.</p>
+            <p>AI SYSTEMS · AUTOMATION · INTELLIGENCE</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function StackMarquee() {
+  const rows = [
+    { items: stacks.frontend, reverse: false },
+    { items: stacks.backend, reverse: true },
+    { items: stacks.ai, reverse: false },
+    { items: stacks.tools, reverse: true },
+  ];
+
+  return (
+    <div className="stack-marquee">
+      {rows.map((row, index) => (
+        <div className="marquee-window" key={index}>
+          <div className={`marquee-track ${row.reverse ? "reverse" : ""}`}>
+            {[...row.items, ...row.items, ...row.items, ...row.items].map((item, i) => (
+              <span key={`${item}-${i}`}>{item}<b>.</b></span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
