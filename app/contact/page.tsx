@@ -1,0 +1,1 @@
+export default function Contact(){return <main className="page"><p className="eyebrow">06 / CONTACT</p><h1 className="display">Build something <i>real.</i></h1><a className="button" href="mailto:engrmustafa0007@gmail.com?subject=Project%20Inquiry">EMAIL MUSTAFA ↗</a></main>}
