@@ -240,7 +240,7 @@ ${data.get("message") || ""}`,
               <button onClick={() => jump("contact")}>Contact</button>
             </div>
           </div>
-          <img ref={loaderImage} className="loader-person" src="/images/mustafa-hero.webp" alt="Mustafa Ahmed" />
+          <img ref={loaderImage} className="loader-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed" />
         </section>
       )}
 
@@ -278,7 +278,7 @@ ${data.get("message") || ""}`,
               <button onClick={() => jump("contact")}>Contact</button>
             </div>
           </div>
-          <img className="hero-person" src="/images/mustafa-hero.webp" alt="Mustafa Ahmed in a black suit" />
+          <img className="hero-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed in a black suit" />
         </section>
 
         <section id="about" className="about-section">
@@ -287,9 +287,9 @@ ${data.get("message") || ""}`,
             <div className="about-grid">
               <div className="about-portrait reveal">
                 <img
-                  src="https://portfolio-leeshark.vercel.app/assets/about_section-DSEtWksm.png"
+                  src="/images/Mustafa About Section.jpg"
                   alt="Mustafa Ahmed full-body portrait"
-                  onError={(e) => { e.currentTarget.src = "/images/mustafa-hero.webp"; }}
+                  onError={(e) => { e.currentTarget.src = "/images/Mustafa Hero Section.jpg"; }}
                 />
               </div>
               <div className="about-copy">
@@ -367,7 +367,7 @@ ${data.get("message") || ""}`,
                   <img
                     src={project.image}
                     alt={project.name}
-                    onError={(e) => { e.currentTarget.src = "/images/mustafa-hero.webp"; }}
+                    onError={(e) => { e.currentTarget.src = "/images/Mustafa Hero Section.jpg"; }}
                   />
                 </div>
                 <div className="project-copy">
