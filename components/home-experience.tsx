@@ -245,7 +245,7 @@ ${data.get("message") || ""}`,
       )}
 
       <nav ref={nav} className="site-nav" aria-label="Primary navigation">
-        <button className="brand" onClick={() => jump("home")}>MUSTAFA</button>
+        <button className="brand" onClick={() => jump("home")}>MUSTAFA AHMED</button>
         <div className="desktop-nav">
           <button onClick={() => jump("home")}>Home</button>
           <button onClick={() => jump("about")}>About</button>
@@ -442,7 +442,7 @@ ${data.get("message") || ""}`,
             <a href="mailto:engrmustafa0007@gmail.com">Email</a>
             <a href="https://github.com/MustafaAhmed007" target="_blank" rel="noreferrer">Open Source</a>
           </div>
-          <div className="footer-name">MUSTAFA</div>
+          <div className="footer-name">MUSTAFA AHMED</div>
           <div className="footer-bottom">
             <p>© {new Date().getFullYear()} Mustafa Ahmed. All Rights Reserved.</p>
             <p>AI SYSTEMS · AUTOMATION · INTELLIGENCE</p>
