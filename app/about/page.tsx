@@ -1,0 +1,1 @@
+export default function About(){return <main className="page"><p className="eyebrow">04 / ABOUT</p><h1 className="display">Human <i>behind the systems.</i></h1><p className="lead">Mustafa Ahmed is an AI Automation Engineer, Agentic AI Systems Designer and LLM Application Developer focused on turning AI capabilities into useful, executable systems.</p></main>}
