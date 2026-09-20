@@ -22,6 +22,10 @@ jobs:
         run: |
           file "public/images/Mustafa Hero Section.jpg" "public/images/Mustafa About Section.jpg"
           sha256sum "public/images/Mustafa Hero Section.jpg" "public/images/Mustafa About Section.jpg"
+          file public/images/mustafa-hero.webp
+          xxd -l 16 public/images/mustafa-hero.webp
+          xxd -l 16 "public/images/Mustafa Hero Section.jpg"
+          xxd -l 16 "public/images/Mustafa About Section.jpg"
       - name: Package hero assets for verification
         uses: actions/upload-artifact@v4
         with:
