@@ -127,84 +127,197 @@ export function HomeExperience() {
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeService, setActiveService] = useState<number | null>(null);
-  const loaderWord = useRef<HTMLHeadingElement>(null);
-  const loaderImage = useRef<HTMLImageElement>(null);
+  const [heroWord, setHeroWord] = useState("LEESHARK");
+  const heroTitle = useRef<HTMLDivElement>(null);
+  const heroImage = useRef<HTMLDivElement>(null);
+  const heroSubtitle = useRef<HTMLParagraphElement>(null);
+  const heroContact = useRef<HTMLDivElement>(null);
   const nav = useRef<HTMLElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
-    const word = loaderWord.current;
-    const image = loaderImage.current;
-    if (!word || !image) return;
 
-    const timeline = gsap.timeline({
-      onComplete: () => {
-        document.body.style.overflow = "auto";
-        setLoading(false);
-      },
+    const title = heroTitle.current;
+    const image = heroImage.current;
+    const subtitle = heroSubtitle.current;
+    const contact = heroContact.current;
+
+    if (!title || !image || !subtitle || !contact) return;
+
+    const sourceImage = new window.Image();
+    sourceImage.src = "/images/Mustafa Hero Section.jpg";
+
+    let intervalId: ReturnType<typeof window.setInterval> | undefined;
+    let timeoutId: ReturnType<typeof window.setTimeout> | undefined;
+    let cancelled = false;
+    let progress = 0;
+
+    const preload = new Promise<void>((resolve) => {
+      if (sourceImage.complete) resolve();
+      else {
+        sourceImage.onload = () => resolve();
+        sourceImage.onerror = () => resolve();
+      }
     });
 
-    timeline
-      .to(word, { y: 0, opacity: 1, duration: 1.2, ease: "power3.inOut" }, 0.2)
-      .fromTo(
-        ".loader-subtitle, .loader-contact",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.1, stagger: 0.15, ease: "power3.out" },
-        "-=0.8",
-      )
-      .fromTo(image, { y: "100vh" }, { y: 0, duration: 1.5, ease: "power3.out" }, "-=1.2")
-      .to(".loader", { opacity: 0, duration: 0.7, delay: 0.25, pointerEvents: "none" });
+    const minimumDelay = new Promise<void>((resolve) => {
+      timeoutId = window.setTimeout(resolve, 1000);
+    });
+
+    Promise.all([preload, minimumDelay]).then(() => {
+      if (cancelled) return;
+
+      intervalId = window.setInterval(() => {
+        setHeroWord(
+          "PORTFOLIO"
+            .split("")
+            .map((character, index) =>
+              index < Math.floor(progress) ? character : index < 8 ? "LEESHARK"[index] : "",
+            )
+            .join(""),
+        );
+
+        if (progress >= 9) {
+          if (intervalId) window.clearInterval(intervalId);
+
+          const timeline = gsap.timeline({
+            onComplete: () => {
+              document.body.style.overflow = "auto";
+              setLoading(false);
+            },
+          });
+
+          const mobile = window.innerWidth < 768;
+
+          timeline.to(title, {
+            top: mobile ? "20%" : "45%",
+            duration: 1.5,
+            ease: "power3.inOut",
+          }, "+=0.2");
+
+          timeline.fromTo(
+            [subtitle, contact],
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power3.out" },
+            "-=1.0",
+          );
+
+          timeline.fromTo(
+            image,
+            { y: "100vh" },
+            { y: 0, duration: 1.5, ease: "power3.out" },
+            "-=1.2",
+          );
+        }
+
+        progress += 1 / 3;
+      }, 50);
+    });
 
     return () => {
-      timeline.kill();
+      cancelled = true;
       document.body.style.overflow = "auto";
+      if (timeoutId) window.clearTimeout(timeoutId);
+      if (intervalId) window.clearInterval(intervalId);
     };
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".site-nav",
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      );
+    let previousScroll = window.scrollY;
 
-      gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
+    const showOrHideNav = () => {
+      if (!nav.current) return;
+      if (window.scrollY > previousScroll && window.scrollY > 50) {
+        nav.current.classList.add("nav-hidden");
+      } else {
+        nav.current.classList.remove("nav-hidden");
+      }
+      previousScroll = window.scrollY;
+    };
+
+    const initialTimer = window.setTimeout(() => {
+      nav.current?.classList.remove("nav-hidden");
+    }, 100);
+
+    window.addEventListener("scroll", showOrHideNav);
+
+    return () => {
+      window.clearTimeout(initialTimer);
+      window.removeEventListener("scroll", showOrHideNav);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const aboutHeadings = gsap.utils.toArray<HTMLElement>(".about-heading");
+      aboutHeadings.forEach((element) => {
         gsap.fromTo(
           element,
-          { y: 45, opacity: 0 },
+          { y: 100, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.9,
+            duration: 1,
             ease: "power3.out",
-            scrollTrigger: { trigger: element, start: "top 84%", toggleActions: "play none none reverse" },
-          },
-        );
-      });
-
-      gsap.utils.toArray<HTMLElement>(".intro-word").forEach((element) => {
-        gsap.fromTo(
-          element,
-          { color: "#52525b", opacity: 0.2 },
-          {
-            color: "#fff",
-            opacity: 1,
-            stagger: 0.04,
             scrollTrigger: {
-              trigger: element.parentElement,
-              start: "top 84%",
-              end: "bottom 55%",
-              scrub: true,
+              trigger: element,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
             },
           },
         );
       });
+
+      const intro = document.querySelector(".intro-copy");
+      if (intro) {
+        const words = intro.querySelectorAll(".intro-word");
+        gsap.fromTo(
+          words,
+          { color: "#52525b", opacity: 0.2 },
+          {
+            color: "#ffffff",
+            opacity: 1,
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: intro,
+              start: "top 85%",
+              end: "bottom 50%",
+              scrub: true,
+            },
+          },
+        );
+      }
+
+      const serviceHeading = document.querySelector(".service-heading");
+      if (serviceHeading) {
+        gsap.fromTo(
+          serviceHeading,
+          { y: -100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: serviceHeading,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+      }
     });
+
     return () => ctx.revert();
-  }, [loading]);
+  }, []);
 
   const jump = (id: string) => {
     setMobileOpen(false);
@@ -227,24 +340,7 @@ ${data.get("message") || ""}`,
 
   return (
     <div className="portfolio-shell">
-      {loading && (
-        <section className="loader" aria-label="Portfolio loading">
-          <div className="loader-vignette" />
-          <div className="loader-title-wrap">
-            <h1 ref={loaderWord}>PORTFOLIO</h1>
-            <p className="loader-subtitle"><strong>AI Systems</strong> <em>Designer</em></p>
-            <div className="loader-contact">
-              <button onClick={() => jump("contact")} aria-label="Contact Mustafa">
-                <ArrowUpRight size={15} />
-              </button>
-              <button onClick={() => jump("contact")}>Contact</button>
-            </div>
-          </div>
-          <img ref={loaderImage} className="loader-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed" />
-        </section>
-      )}
-
-      <nav ref={nav} className="site-nav" aria-label="Primary navigation">
+      <nav ref={nav} className={`site-nav ${loading ? "nav-hidden" : ""} ${mobileOpen ? "nav-menu-open" : ""}`} aria-label="Primary navigation">
         <button className="brand" onClick={() => jump("home")}>MUSTAFA AHMED</button>
         <div className="desktop-nav">
           <button onClick={() => jump("home")}>Home</button>
@@ -253,37 +349,47 @@ ${data.get("message") || ""}`,
           <button onClick={() => jump("project")}>Project</button>
           <button onClick={() => jump("contact")}>Contact</button>
         </div>
-        <button className="mobile-menu-button" onClick={() => setMobileOpen(true)} aria-label="Open menu"><Menu /></button>
+        <button className="mobile-menu-button" onClick={() => setMobileOpen((open) => !open)} aria-label={mobileOpen ? "Close menu" : "Open menu"}>
+          {mobileOpen ? <X /> : <Menu />}
+        </button>
       </nav>
 
-      {mobileOpen && (
-        <div className="mobile-menu">
-          <button className="mobile-close" onClick={() => setMobileOpen(false)} aria-label="Close menu"><X /></button>
-          <div>
-            {["home", "about", "service", "project", "contact"].map((id) => (
-              <button key={id} onClick={() => jump(id)}>{id}</button>
-            ))}
-          </div>
+      <div className={`mobile-menu ${mobileOpen ? "mobile-menu-open" : ""}`} aria-hidden={!mobileOpen}>
+        <div>
+          {["home", "about", "service", "project", "contact"].map((id, index) => (
+            <button
+              key={id}
+              className="mobile-menu-link"
+              style={{ transitionDelay: mobileOpen ? `${index * 100}ms` : "0ms" }}
+              onClick={() => jump(id)}
+            >
+              {id}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
       <main>
         <section id="home" className="hero-section">
           <div className="hero-overlay" />
-          <div className="hero-title">
-            <h1>PORTFOLIO</h1>
-            <p><strong>AI Systems</strong> <em>Designer</em></p>
-            <div className="hero-contact">
-              <button onClick={() => jump("contact")}><ArrowUpRight size={15} /></button>
+          <div ref={heroTitle} className="hero-title">
+            <h1>{heroWord}</h1>
+            <p ref={heroSubtitle}><strong>AI Systems</strong> <em>Designer</em></p>
+            <div ref={heroContact} className="hero-contact">
+              <button onClick={() => jump("contact")} aria-label="Contact Mustafa">
+                <ArrowUpRight size={15} />
+              </button>
               <button onClick={() => jump("contact")}>Contact</button>
             </div>
           </div>
-          <img className="hero-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed in a black suit" />
+          <div ref={heroImage} className="hero-image-stage">
+            <img className="hero-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed in a black suit" />
+          </div>
         </section>
 
         <section id="about" className="about-section">
           <div className="section-inner about-inner">
-            <h2 className="mobile-section-word reveal">Intro</h2>
+            <h2 className="mobile-section-word about-heading">Intro</h2>
             <div className="about-grid">
               <div className="about-portrait reveal">
                 <img
@@ -293,8 +399,8 @@ ${data.get("message") || ""}`,
                 />
               </div>
               <div className="about-copy">
-                <h2 className="desktop-section-word reveal">Intro</h2>
-                <div className="intro-card">
+                <h2 className="desktop-section-word about-heading">Intro</h2>
+                <div className="intro-card intro-copy">
                   <p>
                     {[
                       ["Hey,", ""], ["I'm", ""], ["Mustafa Ahmed.", "strong"], ["An", ""],
@@ -320,7 +426,7 @@ ${data.get("message") || ""}`,
         </section>
 
         <section id="service" className="service-section">
-          <div className="section-heading service-heading reveal">WHAT WE<br />CAN DO</div>
+          <div className="section-heading service-heading">WHAT WE<br />CAN DO</div>
           <div className="service-list">
             {services.map((service, index) => {
               const open = activeService === index;
@@ -353,7 +459,7 @@ ${data.get("message") || ""}`,
 
         <section id="project" className="project-section">
           <div className="project-header">
-            <h2 className="section-heading reveal">Selected <em>work</em></h2>
+            <h2 className="section-heading">Selected <em>work</em></h2>
             <div>
               <p className="project-intro">Systems, repositories and experiments built around practical AI engineering, automation, retrieval, agents and digital experiences.</p>
               <button className="lime-button" onClick={() => jump("contact")}>Read More <ArrowUpRight size={13} /></button>
@@ -362,7 +468,7 @@ ${data.get("message") || ""}`,
 
           <div className="project-list">
             {primaryProjects.map((project, index) => (
-              <article className={`project-row ${index % 2 ? "reverse" : ""} reveal`} key={project.id}>
+              <article className={`project-row ${index % 2 ? "reverse" : ""}`} key={project.id}>
                 <div className="project-image-wrap">
                   <img
                     src={project.image}
