@@ -148,8 +148,8 @@ export function HomeExperience() {
     const sourceImage = new window.Image();
     sourceImage.src = "/images/Mustafa Hero Section.jpg";
 
-    let intervalId: ReturnType<typeof window.setInterval> | undefined;
-    let timeoutId: ReturnType<typeof window.setTimeout> | undefined;
+    let intervalId: number | undefined;
+    let timeoutId: number | undefined;
     let cancelled = false;
     let progress = 0;
 
