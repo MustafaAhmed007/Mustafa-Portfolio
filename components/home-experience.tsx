@@ -127,7 +127,7 @@ export function HomeExperience() {
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeService, setActiveService] = useState<number | null>(null);
-  const [heroWord, setHeroWord] = useState("LEESHARK");
+  const [heroWord, setHeroWord] = useState("MUSTAFA");
   const heroTitle = useRef<HTMLDivElement>(null);
   const heroImage = useRef<HTMLDivElement>(null);
   const heroSubtitle = useRef<HTMLParagraphElement>(null);
@@ -146,7 +146,7 @@ export function HomeExperience() {
     if (!title || !image || !subtitle || !contact) return;
 
     const sourceImage = new window.Image();
-    sourceImage.src = "/images/Mustafa Hero Section.jpg";
+    sourceImage.src = "/images/mustafa-hero.webp";
 
     let intervalId: number | undefined;
     let timeoutId: number | undefined;
@@ -169,14 +169,13 @@ export function HomeExperience() {
       if (cancelled) return;
 
       intervalId = window.setInterval(() => {
-        setHeroWord(
-          "PORTFOLIO"
-            .split("")
-            .map((character, index) =>
-              index < Math.floor(progress) ? character : index < 8 ? "LEESHARK"[index] : "",
-            )
-            .join(""),
-        );
+        const step = Math.min(Math.floor(progress), 9);
+        const target = "PORTFOLIO";
+        const source = "MUSTAFA";
+        setHeroWord(target
+          .split("")
+          .map((character, index) => index < step ? character : source[index] ?? character)
+          .join(""));
 
         if (progress >= 9) {
           if (intervalId) window.clearInterval(intervalId);
@@ -383,7 +382,7 @@ ${data.get("message") || ""}`,
             </div>
           </div>
           <div ref={heroImage} className="hero-image-stage">
-            <img className="hero-person" src="/images/Mustafa Hero Section.jpg" alt="Mustafa Ahmed in a black suit" />
+            <img className="hero-person" src="/images/mustafa-hero.webp" alt="Mustafa Ahmed in a black suit" />
           </div>
         </section>
 
@@ -393,7 +392,7 @@ ${data.get("message") || ""}`,
             <div className="about-grid">
               <div className="about-portrait reveal">
                 <img
-                  src="/images/Mustafa About Section.jpg"
+                  src="/images/mustafa-about.webp"
                   alt="Mustafa Ahmed full-body portrait"
                   onError={(e) => { e.currentTarget.src = "/images/Mustafa Hero Section.jpg"; }}
                 />
