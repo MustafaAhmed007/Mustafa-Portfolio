@@ -19,28 +19,34 @@ img{display:block;max-width:100%}
 .loader-contact button{height:48px;border:1px solid #9ca3af4d;border-radius:999px;padding:0 22px;color:#d4d4d8;background:#0003;backdrop-filter:blur(12px);font-size:14px;font-style:italic;letter-spacing:.08em}
 .loader-contact button:first-child{width:48px;padding:0;display:grid;place-items:center}
 .loader-person{position:relative;z-index:2;width:min(100%,440px);height:auto;max-height:82vh;object-fit:contain;transform:translateY(100vh);filter:drop-shadow(0 20px 50px #0008)}
-.site-nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;transition:background .5s ease,transform .5s ease}
+.site-nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;transition:all .7s cubic-bezier(.4,0,.2,1);transform:translateY(0);opacity:1;background:transparent}
+.site-nav.nav-hidden{transform:translateY(-100%);opacity:0}
+.site-nav.nav-menu-open{background:#000000e6;backdrop-filter:blur(12px)}
 .brand{font-size:clamp(1.25rem,2vw,1.7rem);font-weight:900;letter-spacing:.16em;text-transform:uppercase}
 .desktop-nav{display:flex;align-items:center;gap:32px}
 .desktop-nav button{font-size:14px;color:#d4d4d8;text-transform:uppercase;letter-spacing:.08em;font-weight:500;transition:color .25s}
 .desktop-nav button:hover,.footer-nav button:hover{color:var(--lime)}
 .mobile-menu-button{display:none;color:#fff}
-.mobile-menu{position:fixed;inset:0;z-index:150;background:#0a0a0a;display:grid;place-items:center}
-.mobile-close{position:absolute;right:22px;top:22px}
+.mobile-menu{position:fixed;inset:0;z-index:90;background:#0a0a0a;display:grid;place-items:center;opacity:0;visibility:hidden;pointer-events:none;transition:all .5s cubic-bezier(.4,0,.2,1)}
+.mobile-menu-open{opacity:1;visibility:visible;pointer-events:auto}
 .mobile-menu>div{display:flex;flex-direction:column;align-items:center;gap:30px}
-.mobile-menu button:not(.mobile-close){font-size:clamp(2rem,8vw,3rem);font-weight:900;text-transform:uppercase;letter-spacing:.08em}
-.mobile-menu button:not(.mobile-close):hover{color:var(--lime)}
+.mobile-menu-link{font-size:clamp(2rem,8vw,3rem);font-weight:900;text-transform:uppercase;letter-spacing:.08em;transform:translateY(2rem);opacity:0;transition:all .5s cubic-bezier(.4,0,.2,1)}
+.mobile-menu-open .mobile-menu-link{transform:translateY(0);opacity:1}
+.mobile-menu-link:hover{color:var(--lime)}
 .hero-section{position:relative;min-height:100vh;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(circle,#222 0%,#000 80%);overflow:hidden}
 .hero-overlay{position:absolute;inset:0;background:#0006;backdrop-filter:blur(2px)}
-.hero-title{position:absolute;z-index:3;top:45%;left:50%;transform:translate(-50%,-50%);width:max-content}
+.hero-title{position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%);width:max-content;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none;user-select:none}
 .hero-title h1{margin:0;font-size:clamp(5rem,16vw,14rem);font-weight:900;letter-spacing:-.08em;line-height:.86;text-transform:uppercase;color:transparent;background:linear-gradient(#fff,#ccc,#333);background-clip:text;-webkit-background-clip:text;white-space:nowrap;text-shadow:0 25px 25px #0004}
-.hero-title>p{position:absolute;left:8px;bottom:-45px;margin:0;color:#fff;font-size:clamp(1rem,2vw,2rem);white-space:nowrap}
+.hero-title>p{position:absolute;left:8px;bottom:-45px;margin:0;color:#fff;font-size:clamp(1rem,2vw,2rem);white-space:nowrap;opacity:0}
 .hero-title>p em{font-weight:300;color:#d4d4d8;font-family:Georgia,serif}
-.hero-contact{position:absolute;right:20px;bottom:-48px;display:flex;gap:12px;align-items:center}
+.hero-contact{position:absolute;right:20px;bottom:-48px;display:flex;gap:12px;align-items:center;opacity:0}
 .hero-contact button{height:48px;border:1px solid #9ca3af4d;border-radius:999px;padding:0 22px;color:#d4d4d8;background:#0003;backdrop-filter:blur(12px);font-size:14px;font-style:italic;letter-spacing:.08em;transition:.3s}
 .hero-contact button:first-child{width:48px;padding:0;display:grid;place-items:center}
+.hero-contact button:first-child svg{transition:transform .3s}
+.hero-contact button:first-child:hover svg{transform:rotate(45deg)}
 .hero-contact button:hover{background:#ffffff1a;border-color:#9ca3af80}
-.hero-person{position:relative;z-index:2;width:min(100%,440px);height:auto;max-height:82vh;object-fit:contain;transform:translateY(100vh);filter:drop-shadow(0 20px 50px #0008)}
+.hero-image-stage{position:relative;z-index:2;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;width:100%;pointer-events:none;transform:translateY(100vh)}
+.hero-person{width:100%;max-width:448px;height:auto;max-height:82vh;object-fit:contain;filter:drop-shadow(0 20px 50px #0008)}
 .about-section,.service-section,.project-section{background:#050505;color:#fff}
 .about-section{min-height:100vh;padding:96px 24px 0;display:flex;flex-direction:column;justify-content:space-between}
 .section-inner{max-width:1280px;width:100%;margin:0 auto}
@@ -143,10 +149,10 @@ img{display:block;max-width:100%}
  .desktop-nav{display:none}.mobile-menu-button{display:block}
  .site-nav{padding:18px 20px}
  .hero-title h1,.loader-title-wrap h1{font-size:18vw}
- .hero-title{top:42%}.loader-title-wrap{top:42%}
+ .hero-title{top:50%}
  .hero-title>p,.loader-subtitle{left:50%;transform:translateX(-50%);bottom:-42px;font-size:16px}
  .hero-contact,.loader-contact{left:50%;right:auto;transform:translateX(-50%);bottom:-105px}
- .hero-person,.loader-person{width:82vw;max-height:76vh}
+ .hero-image-stage{width:100%}.hero-person{width:100%;max-width:82vw;max-height:76vh}
  .about-section{padding:90px 20px 0}.about-grid{grid-template-columns:1fr;gap:30px}.about-portrait{justify-content:center;padding-left:0}.about-portrait img{width:224px}.desktop-section-word{display:none}.mobile-section-word{display:block}.intro-card{padding:24px;text-align:center}
  .service-section,.project-section,.contact-section{padding-left:20px;padding-right:20px}
  .service-heading{text-align:center;margin-bottom:35px}
