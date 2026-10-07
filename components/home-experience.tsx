@@ -346,6 +346,7 @@ ${data.get("message") || ""}`,
           <button onClick={() => jump("about")}>About</button>
           <button onClick={() => jump("service")}>Service</button>
           <button onClick={() => jump("project")}>Project</button>
+          <Link href="/evidence" className="nav-evidence-link">Evidence</Link>
           <button onClick={() => jump("contact")}>Contact</button>
         </div>
         <button className="mobile-menu-button" onClick={() => setMobileOpen((open) => !open)} aria-label={mobileOpen ? "Close menu" : "Open menu"}>
@@ -355,15 +356,21 @@ ${data.get("message") || ""}`,
 
       <div className={`mobile-menu ${mobileOpen ? "mobile-menu-open" : ""}`} aria-hidden={!mobileOpen}>
         <div>
-          {["home", "about", "service", "project", "contact"].map((id, index) => (
-            <button
-              key={id}
-              className="mobile-menu-link"
-              style={{ transitionDelay: mobileOpen ? `${index * 100}ms` : "0ms" }}
-              onClick={() => jump(id)}
-            >
-              {id}
-            </button>
+          {["home", "about", "service", "project", "evidence", "contact"].map((id, index) => (
+            id === "evidence" ? (
+              <Link key={id} href="/evidence" className="mobile-menu-link" style={{ transitionDelay: mobileOpen ? (index * 100) + "ms" : "0ms" }} onClick={() => setMobileOpen(false)}>
+                evidence
+              </Link>
+            ) : (
+              <button
+                key={id}
+                className="mobile-menu-link"
+                style={{ transitionDelay: mobileOpen ? (index * 100) + "ms" : "0ms" }}
+                onClick={() => jump(id)}
+              >
+                {id}
+              </button>
+            )
           ))}
         </div>
       </div>
